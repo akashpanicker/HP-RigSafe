@@ -3,15 +3,19 @@ import {
   cloneElement,
   createContext,
   isValidElement,
+  useCallback,
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
   type Dispatch,
+  type CSSProperties,
   type ReactElement,
   type ReactNode,
+  type RefObject,
   type SetStateAction,
 } from 'react';
 
@@ -56,8 +60,10 @@ interface TooltipContextValue {
   tooltipId: string;
   contentId: string;
   isOpen: boolean;
+  rootRef: RefObject<HTMLDivElement | null>;
   openTooltip: () => void;
   requestCloseTooltip: () => void;
+  closeTooltip: () => void;
 }
 
 const TooltipContext = createContext<TooltipContextValue | null>(null);
@@ -88,6 +94,7 @@ export function Tooltip({ children, className }: TooltipProps) {
   const tooltipId = useId();
   const contentId = `${tooltipId}-content`;
   const closeTimeoutRef = useRef<number | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const clearCloseTimeout = () => {
     if (closeTimeoutRef.current !== null) {
@@ -108,6 +115,11 @@ export function Tooltip({ children, className }: TooltipProps) {
     }, 80);
   };
 
+  const closeTooltip = () => {
+    clearCloseTimeout();
+    setActiveTooltipId((currentId) => (currentId === tooltipId ? null : currentId));
+  };
+
   useEffect(() => {
     return () => {
       clearCloseTimeout();
@@ -119,8 +131,10 @@ export function Tooltip({ children, className }: TooltipProps) {
       tooltipId,
       contentId,
       isOpen: activeTooltipId === tooltipId,
+      rootRef,
       openTooltip,
       requestCloseTooltip,
+      closeTooltip,
     }),
     [activeTooltipId, tooltipId]
   );
@@ -128,6 +142,7 @@ export function Tooltip({ children, className }: TooltipProps) {
   return (
     <TooltipContext.Provider value={value}>
       <div
+        ref={rootRef}
         className={`tooltip-root${className ? ` ${className}` : ''}`}
         onMouseEnter={openTooltip}
         onMouseLeave={requestCloseTooltip}
@@ -137,6 +152,7 @@ export function Tooltip({ children, className }: TooltipProps) {
             requestCloseTooltip();
           }
         }}
+        onClickCapture={closeTooltip}
       >
         {children}
       </div>
@@ -181,7 +197,66 @@ interface TooltipContentProps {
 }
 
 export function TooltipContent({ children, side = 'top' }: TooltipContentProps) {
-  const { contentId, isOpen, openTooltip, requestCloseTooltip } = useTooltipContext();
+  const { contentId, isOpen, rootRef, openTooltip, requestCloseTooltip, closeTooltip } = useTooltipContext();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [resolvedSide, setResolvedSide] = useState<'top' | 'bottom'>(side);
+  const [contentStyle, setContentStyle] = useState<CSSProperties>({});
+
+  const updatePosition = useCallback(() => {
+    const rootEl = rootRef.current;
+    const tooltipEl = contentRef.current;
+    if (!rootEl || !tooltipEl) {
+      return;
+    }
+
+    const rootRect = rootEl.getBoundingClientRect();
+    const tooltipRect = tooltipEl.getBoundingClientRect();
+    const viewportPadding = 8;
+    const gap = 8;
+
+    const topSpace = rootRect.top;
+    const bottomSpace = window.innerHeight - rootRect.bottom;
+    const needsBottom = side === 'top' && topSpace < tooltipRect.height + gap + viewportPadding;
+    const needsTop = side === 'bottom' && bottomSpace < tooltipRect.height + gap + viewportPadding;
+
+    let nextSide: 'top' | 'bottom' = side;
+    if (needsBottom) {
+      nextSide = 'bottom';
+    } else if (needsTop) {
+      nextSide = topSpace > bottomSpace ? 'top' : 'bottom';
+    }
+
+    const triggerCenterInRoot = rootRect.width / 2;
+    const idealLeft = triggerCenterInRoot - tooltipRect.width / 2;
+    const minLeft = viewportPadding - rootRect.left;
+    const maxLeft = window.innerWidth - viewportPadding - rootRect.left - tooltipRect.width;
+    const clampedLeft = Math.min(Math.max(idealLeft, minLeft), maxLeft);
+    const arrowLeft = Math.min(
+      Math.max(triggerCenterInRoot - clampedLeft, 10),
+      tooltipRect.width - 10
+    );
+
+    setResolvedSide(nextSide);
+    setContentStyle({
+      left: `${clampedLeft}px`,
+      transform: 'none',
+      ['--tooltip-arrow-left' as string]: `${arrowLeft}px`,
+    });
+  }, [rootRef, side]);
+
+  useLayoutEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+    };
+  }, [isOpen, updatePosition]);
 
   if (!isOpen) {
     return null;
@@ -189,11 +264,14 @@ export function TooltipContent({ children, side = 'top' }: TooltipContentProps) 
 
   return (
     <div
+      ref={contentRef}
       id={contentId}
       role="tooltip"
-      className={`tooltip-content ${side === 'bottom' ? 'tooltip-content--bottom' : ''}`}
+      className={`tooltip-content ${resolvedSide === 'bottom' ? 'tooltip-content--bottom' : ''}`}
+      style={contentStyle}
       onMouseEnter={openTooltip}
       onMouseLeave={requestCloseTooltip}
+      onClick={closeTooltip}
     >
       {Children.toArray(children)}
       <span className="tooltip-content__arrow" aria-hidden="true" />

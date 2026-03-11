@@ -7,6 +7,8 @@ interface AlertData {
   issue: string;
   activity: string;
   eventId: string;
+  region?: string;
+  site?: string;
   rig: string;
   camera: string;
   dateTime: string;
@@ -63,20 +65,17 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
   location,
   confidence
 }) => {
+  const confidenceValue = confidence || '97%';
+
   return (
     <div className="alert-card__body">
       <div className="alert-card__row">
-        <span className="alert-card__label">Rig:</span>
-        <span className="alert-card__value">{rig}</span>
+        <span className="alert-card__label">Location:</span>
+        <span className="alert-card__value">{location}</span>
       </div>
       <div className="alert-card__row">
-        <span className="alert-card__label">Event ID:</span>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="alert-card__value" tabIndex={0}>{eventId}</span>
-          </TooltipTrigger>
-          <TooltipContent>Unique identifier for this incident</TooltipContent>
-        </Tooltip>
+        <span className="alert-card__label">Rig:</span>
+        <span className="alert-card__value">{rig}</span>
       </div>
       <div className="alert-card__row">
         <span className="alert-card__label">Camera ID:</span>
@@ -96,20 +95,23 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
         </Tooltip>
       </div>
       <div className="alert-card__row">
-        <span className="alert-card__label">Location:</span>
-        <span className="alert-card__value">{location}</span>
+        <span className="alert-card__label">Confidence:</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="alert-card__value" tabIndex={0}>{confidenceValue}</span>
+          </TooltipTrigger>
+          <TooltipContent>AI detection confidence score</TooltipContent>
+        </Tooltip>
       </div>
-      {confidence && (
-        <div className="alert-card__row">
-          <span className="alert-card__label">Confidence:</span>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="alert-card__value" tabIndex={0}>{confidence}</span>
-            </TooltipTrigger>
-            <TooltipContent>AI detection confidence score</TooltipContent>
-          </Tooltip>
-        </div>
-      )}
+      <div className="alert-card__row">
+        <span className="alert-card__label">Event ID:</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="alert-card__value" tabIndex={0}>{eventId}</span>
+          </TooltipTrigger>
+          <TooltipContent>Unique identifier for this incident</TooltipContent>
+        </Tooltip>
+      </div>
     </div>
   );
 };
@@ -172,6 +174,12 @@ export const AlertCard: React.FC<AlertCardProps> = ({
   onAcknowledge,
   onExportClip
 }) => {
+  const cameraDigits = alert.camera.match(/\d+/)?.[0] || '04';
+  const cameraId = `Cam-${cameraDigits.padStart(2, '0')}`;
+  const locationValue =
+    alert.location ||
+    (alert.region && alert.site ? `${alert.region} - ${alert.site}` : 'West - Midland Site');
+
   const handleViewRecording = () => {
     if (onViewRecording) {
       onViewRecording();
@@ -202,11 +210,11 @@ export const AlertCard: React.FC<AlertCardProps> = ({
       <AlertCardBody
         rig={alert.rig}
         eventId={alert.eventId}
-        cameraId={alert.camera.split(' ')[1] || '04'} // Defaulting to 04 as per requirement for incident
+        cameraId={cameraId}
         dateTime={alert.dateTime}
         zoneType={alert.zoneType || (alert.status === 'critical' ? 'Red Zone' : 'Yellow Zone')}
-        location={alert.location || 'Drill floor 9'}
-        confidence={alert.confidence}
+        location={locationValue}
+        confidence={alert.confidence || '97%'}
       />
       <AlertCardActions
         onViewRecording={handleViewRecording}

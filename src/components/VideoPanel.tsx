@@ -54,7 +54,7 @@ function VideoPanel({
       {/* Header Bar */}
       <div className="video-panel__header">
         <div className="video-panel__header-left">
-          <CameraHierarchyDropdown 
+          <CameraHierarchyDropdown
             selectedCameraName={cameraName}
             onCameraSelect={handleCameraSelect}
           />
@@ -161,7 +161,7 @@ function VideoPanel({
             </TooltipTrigger>
             <TooltipContent>Step backward</TooltipContent>
           </Tooltip>
-          <button className="video-panel__control-btn" type="button" aria-label="Step back" onClick={() => { if (videoRef.current) { videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 1/30); } }}>
+          <button className="video-panel__control-btn" type="button" aria-label="Step back" onClick={() => { if (videoRef.current) { videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 1 / 30); } }}>
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M11 18V6l-8.5 6 8.5 6zm.5-6 8.5 6V6l-8.5 6z" />
             </svg>
@@ -193,7 +193,7 @@ function VideoPanel({
             </TooltipTrigger>
             <TooltipContent>{isPlaying ? 'Pause recording' : 'Play recording'}</TooltipContent>
           </Tooltip>
-          <button className="video-panel__control-btn" type="button" aria-label="Step forward" onClick={() => { if (videoRef.current) { videoRef.current.currentTime += 1/30; } }}>
+          <button className="video-panel__control-btn" type="button" aria-label="Step forward" onClick={() => { if (videoRef.current) { videoRef.current.currentTime += 1 / 30; } }}>
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z" />
             </svg>

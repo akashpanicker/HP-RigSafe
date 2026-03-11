@@ -9,6 +9,9 @@ interface AlertTableProps {
 
 function AlertTable({ onViewRecording }: AlertTableProps) {
   const [activeView, setActiveView] = useState<'table' | 'card'>('table');
+  const criticalAlerts = alertData.filter((alert) => alert.status === 'critical');
+  const warningAlerts = alertData.filter((alert) => alert.status === 'warning');
+  const orderedAlerts = [...criticalAlerts, ...warningAlerts];
 
   return (
     <section className="alerts-section" aria-label="Alert notifications">
@@ -66,7 +69,7 @@ function AlertTable({ onViewRecording }: AlertTableProps) {
             </tr>
           </thead>
           <tbody className="alert-table__body">
-            {alertData.map((alert) => (
+            {orderedAlerts.map((alert, index) => (
               <AlertRow
                 key={alert.id}
                 status={alert.status}
@@ -79,32 +82,12 @@ function AlertTable({ onViewRecording }: AlertTableProps) {
                 camera={alert.camera}
                 dateTime={alert.dateTime}
                 onViewRecording={onViewRecording}
+                isStickyCritical={index === 0 && alert.status === 'critical'}
               />
             ))}
           </tbody>
         </table>
       </div>
-
-      {/* Pagination */}
-      <nav className="pagination" aria-label="Alert table pagination">
-        <button className="pagination__btn" type="button" aria-label="Previous page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
-        <button className="pagination__btn pagination__btn--active" type="button" aria-current="page">
-          1
-        </button>
-        <button className="pagination__btn" type="button">2</button>
-        <button className="pagination__btn" type="button">3</button>
-        <span className="pagination__ellipsis" aria-hidden="true">…</span>
-        <button className="pagination__btn" type="button">100</button>
-        <button className="pagination__btn" type="button" aria-label="Next page">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </button>
-      </nav>
     </section>
   );
 }

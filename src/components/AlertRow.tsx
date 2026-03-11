@@ -11,6 +11,7 @@ interface AlertRowProps {
   camera: string;
   dateTime: string;
   onViewRecording?: () => void;
+  isStickyCritical?: boolean;
 }
 
 function AlertRow({
@@ -24,11 +25,20 @@ function AlertRow({
   camera,
   dateTime,
   onViewRecording,
+  isStickyCritical = false,
 }: AlertRowProps) {
   const isCritical = status === 'critical';
+  const isActive = activity.trim().toLowerCase() === 'active';
+
+  const rowClassName = [
+    isCritical ? 'alert-row--critical' : '',
+    isStickyCritical ? 'alert-row--critical-sticky' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <tr className={isCritical ? 'alert-row--critical' : ''}>
+    <tr className={rowClassName}>
       <td>
         <span
           className={`alert-row__status-badge alert-row__status-badge--${status}`}
@@ -41,10 +51,10 @@ function AlertRow({
       <td>
         <span
           className={
-            isCritical ? 'alert-row__active-badge' : 'alert-row__recent-badge'
+            isActive ? 'alert-row__active-badge' : 'alert-row__recent-badge'
           }
         >
-          {isCritical && <span className="alert-row__status-dot" aria-hidden="true" />}
+          <span className="alert-row__status-dot" aria-hidden="true" />
           {activity}
         </span>
       </td>
