@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 interface Camera {
   id: string;
@@ -107,18 +108,23 @@ export function CameraHierarchyDropdown({ selectedCameraName, onCameraSelect }: 
 
   return (
     <div className="hierarchy-dropdown" ref={dropdownRef}>
-      <button 
-        className="hierarchy-dropdown__trigger"
-        onClick={() => setIsOpen(!isOpen)}
-        aria-haspopup="true"
-        aria-expanded={isOpen}
-        type="button"
-      >
-        <span>{selectedCameraName}</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-      </button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button 
+            className="hierarchy-dropdown__trigger"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-haspopup="true"
+            aria-expanded={isOpen}
+            type="button"
+          >
+            <span>{selectedCameraName}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>Select camera</TooltipContent>
+      </Tooltip>
 
       {isOpen && (
         <div className="hierarchy-dropdown__menu">

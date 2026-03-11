@@ -4,6 +4,7 @@ import VideoPanel from './VideoPanel';
 import EventTimeline, { TimelineEvent } from './EventTimeline';
 import { AlertCard } from './AlertCardPanel';
 import { alertData } from '../constants/alerts';
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 interface IncidentDetailsPageProps {
   isSidebarOpen: boolean;
@@ -21,14 +22,14 @@ const RANGE_OPTIONS = [
 ];
 
 const TIMELINE_EVENTS: TimelineEvent[] = [
-  { id: 'event-1', minutesAgo: 8, type: 'warning', description: 'Motion detected' },
-  { id: 'event-2', minutesAgo: 22, type: 'warning', description: 'Vehicle detected' },
-  { id: 'event-3', minutesAgo: 35, type: 'critical', description: 'Human detected - Restricted Zone' },
-  { id: 'event-4', minutesAgo: 90, type: 'warning', description: 'Area cleared' },
-  { id: 'event-5', minutesAgo: 280, type: 'warning', description: 'Shift change' },
-  { id: 'event-6', minutesAgo: 640, type: 'critical', description: 'Unauthorized access' },
-  { id: 'event-7', minutesAgo: 1290, type: 'warning', description: 'Equipment activity detected' },
-  { id: 'event-8', minutesAgo: 2200, type: 'critical', description: 'Restricted zone entry' },
+  { id: 'event-1', minutesAgo: 8, type: 'warning', description: 'Motion detected', cameraName: 'Cam-02', zoneType: 'Yellow Zone' },
+  { id: 'event-2', minutesAgo: 22, type: 'warning', description: 'Vehicle detected', cameraName: 'Cam-03', zoneType: 'Yellow Zone' },
+  { id: 'event-3', minutesAgo: 35, type: 'critical', description: 'Human detected', cameraName: 'Cam-02', zoneType: 'Restricted Zone' },
+  { id: 'event-4', minutesAgo: 90, type: 'warning', description: 'Area cleared', cameraName: 'Cam-02', zoneType: 'Yellow Zone' },
+  { id: 'event-5', minutesAgo: 280, type: 'warning', description: 'Shift change', cameraName: 'Cam-01', zoneType: 'Operational Zone' },
+  { id: 'event-6', minutesAgo: 640, type: 'critical', description: 'Unauthorized access', cameraName: 'Cam-04', zoneType: 'Restricted Zone' },
+  { id: 'event-7', minutesAgo: 1290, type: 'warning', description: 'Equipment activity detected', cameraName: 'Cam-03', zoneType: 'Yellow Zone' },
+  { id: 'event-8', minutesAgo: 2200, type: 'critical', description: 'Restricted zone entry', cameraName: 'Cam-04', zoneType: 'Restricted Zone' },
 ];
 
 const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
@@ -113,12 +114,17 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
           </div>
         </div>
         <div className="context-bar__right">
-           <button className="video-panel__action-btn" type="button" aria-label="Settings">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-          </button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button className="video-panel__action-btn" type="button" aria-label="Settings">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Camera settings</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 
@@ -144,7 +150,7 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
         
         <aside className="incident-side">
           <section className="incident-side__section incident-side__section--fixed">
-            <h2 className="incident-panel-title">Active Alert</h2>
+            <h2 className="incident-panel-title">Selected alert event</h2>
             <AlertCard 
               alert={activeAlertData} 
               isHighlighted={true}

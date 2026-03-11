@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import CameraThumbnailBar from './components/CameraThumbnailBar';
@@ -9,10 +9,36 @@ import AlertCardPanel from './components/AlertCardPanel';
 import IncidentDetailsPage from './components/IncidentDetailsPage';
 import { alertData } from './constants/alerts';
 
+type AppView = 'dashboard' | 'incident-details';
+
+const DASHBOARD_HASH = '#/';
+const INCIDENT_DETAILS_HASH = '#/incident-details';
+
+const getViewFromHash = (hash: string): AppView =>
+  hash === INCIDENT_DETAILS_HASH ? 'incident-details' : 'dashboard';
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeLayout, setActiveLayout] = useState('Layout 2');
-  const [currentView, setCurrentView] = useState<'dashboard' | 'incident-details'>('dashboard');
+  const [currentView, setCurrentView] = useState<AppView>(() => getViewFromHash(window.location.hash));
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentView(getViewFromHash(window.location.hash));
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  const navigateToView = (view: AppView) => {
+    const targetHash = view === 'incident-details' ? INCIDENT_DETAILS_HASH : DASHBOARD_HASH;
+    if (window.location.hash !== targetHash) {
+      window.location.hash = targetHash;
+      return;
+    }
+    setCurrentView(view);
+  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,15 +46,16 @@ function App() {
 
   const handleLayoutChange = (layout: string) => {
     setActiveLayout(layout);
-    setCurrentView('dashboard');
+    navigateToView('dashboard');
   };
 
-  const handleViewDetails = () => {
-    setCurrentView('incident-details');
+  const handleOpenIncidentDetailsInNewTab = () => {
+    const incidentDetailsUrl = `${window.location.pathname}${window.location.search}${INCIDENT_DETAILS_HASH}`;
+    window.open(incidentDetailsUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleBackToDashboard = () => {
-    setCurrentView('dashboard');
+    navigateToView('dashboard');
   };
 
   if (currentView === 'incident-details') {
@@ -72,6 +99,7 @@ function App() {
                     feedImage="/assets/images/camera-04.png"
                     feedVideo="/assets/images/Rig video 1.mp4"
                     isAlert={true}
+                    onOpenIncidentDetails={handleOpenIncidentDetailsInNewTab}
                   />
                 </section>
               </div>
@@ -88,21 +116,23 @@ function App() {
                   feedImage="/assets/images/camera-02.png"
                   feedVideo="/assets/images/Rig video 1.mp4"
                   isAlert={true}
+                  onOpenIncidentDetails={handleOpenIncidentDetailsInNewTab}
                 />
                 <VideoPanel
                   cameraName="Cam 03 – Pipe Deck"
                   breadcrumb="West > Site 09 > Rig 146 > Cam 03 – Pipe Deck"
                   feedImage="/assets/images/camera-05.png"
+                  onOpenIncidentDetails={handleOpenIncidentDetailsInNewTab}
                 />
               </section>
 
-              <AlertTable />
+              <AlertTable onViewRecording={handleOpenIncidentDetailsInNewTab} />
             </div>
           )}
         </main>
       </div>
 
-      <AlertToast onViewDetails={handleViewDetails} />
+      <AlertToast onViewDetails={handleOpenIncidentDetailsInNewTab} />
     </div>
   );
 }

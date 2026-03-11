@@ -1,10 +1,13 @@
 import React from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 export interface TimelineEvent {
   id: string;
   minutesAgo: number;
   type: 'critical' | 'warning';
   description: string;
+  cameraName: string;
+  zoneType: string;
 }
 
 interface EventTimelineProps {
@@ -44,20 +47,45 @@ const EventTimeline: React.FC<EventTimelineProps> = ({
     return formatScaleLabel(minutesAgo);
   });
 
+  const formatEventTimestamp = (minutesAgo: number): string => {
+    const date = new Date(now - minutesAgo * 60_000);
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
   return (
     <div className="event-timeline">
       <div className="event-timeline__track-container">
         <div className="event-timeline__track">
           {events.map((event) => (
-            <button
+            <div
               key={event.id}
-              className={`event-marker event-marker--${event.type} ${selectedEventId === event.id ? 'event-marker--selected' : ''}`}
+              className="event-marker-anchor"
               style={{ left: `${Math.max(0, Math.min(100, (1 - event.minutesAgo / rangeMinutes) * 100))}%` }}
-              onClick={() => onEventClick(event)}
-              title={event.description}
             >
-              <span className="event-marker__dot"></span>
-            </button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    className={`event-marker event-marker--${event.type} ${selectedEventId === event.id ? 'event-marker--selected' : ''}`}
+                    onClick={() => onEventClick(event)}
+                    type="button"
+                    aria-label={`Timeline event: ${event.description}`}
+                  >
+                    <span className="event-marker__dot"></span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span className="tooltip-content__line">{event.description}</span>
+                  <span className="tooltip-content__line">Type: {event.type === 'critical' ? 'Critical' : 'Warning'}</span>
+                  <span className="tooltip-content__line">Camera: {event.cameraName}</span>
+                  <span className="tooltip-content__line">Zone: {event.zoneType}</span>
+                  <span className="tooltip-content__line">Time: {formatEventTimestamp(event.minutesAgo)}</span>
+                </TooltipContent>
+              </Tooltip>
+            </div>
           ))}
         </div>
       </div>

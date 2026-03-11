@@ -124,6 +124,66 @@ img {
   max-width: 100%;
 }
 
+/* ---------- Tooltip ---------- */
+.tooltip-root {
+  position: relative;
+  display: inline-flex;
+}
+
+.tooltip-root--block {
+  display: block;
+  width: 100%;
+}
+
+.tooltip-content {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 240px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: var(--surface-3);
+  border: 1px solid var(--surface-4);
+  color: var(--text-1);
+  font-size: var(--font-size-xs);
+  line-height: 1.35;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  z-index: calc(var(--z-toast) + 1);
+  white-space: normal;
+  pointer-events: auto;
+  text-align: left;
+}
+
+.tooltip-content--bottom {
+  top: calc(100% + 8px);
+  bottom: auto;
+}
+
+.tooltip-content__arrow {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--surface-3);
+}
+
+.tooltip-content--bottom .tooltip-content__arrow {
+  top: auto;
+  bottom: 100%;
+  border-top: none;
+  border-bottom: 6px solid var(--surface-3);
+}
+
+.tooltip-content__line {
+  display: block;
+}
+
 /* ---------- Scrollbar Custom Styles ---------- */
 ::-webkit-scrollbar {
   width: 6px;
@@ -258,6 +318,7 @@ body,
   transform: translateY(-50%);
   color: var(--text-3);
   pointer-events: none;
+  z-index: 2;
 }
 
 .header__search-icon svg {
@@ -1624,7 +1685,7 @@ body,
 .alert-card-panel__title {
   font-size: var(--font-size-md);
   font-weight: 700;
-  color: var(--text-1);
+  color: var(--white);
   margin-bottom: var(--spacing-md);
 }
 
@@ -1789,12 +1850,18 @@ body,
   width: 100%;
 }
 
-.event-marker {
+.event-marker-anchor {
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.event-marker {
   width: 14px;
   height: 14px;
+  padding: 0;
+  border: none;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1802,7 +1869,7 @@ body,
 }
 
 .event-marker:hover {
-  transform: translate(-50%, -50%) scale(1.2);
+  transform: scale(1.2);
   z-index: 10;
 }
 
@@ -1934,7 +2001,7 @@ body,
 .incident-panel-title {
   font-size: var(--font-size-sm);
   font-weight: 700;
-  color: var(--text-4);
+  color: var(--white);
   text-transform: uppercase;
   margin-bottom: var(--spacing-lg);
   letter-spacing: 0.5px;

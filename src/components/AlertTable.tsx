@@ -3,7 +3,11 @@ import AlertRow from './AlertRow';
 
 import { alertData } from '../constants/alerts';
 
-function AlertTable() {
+interface AlertTableProps {
+  onViewRecording?: () => void;
+}
+
+function AlertTable({ onViewRecording }: AlertTableProps) {
   const [activeView, setActiveView] = useState<'table' | 'card'>('table');
 
   return (
@@ -74,6 +78,7 @@ function AlertTable() {
                 rig={alert.rig}
                 camera={alert.camera}
                 dateTime={alert.dateTime}
+                onViewRecording={onViewRecording}
               />
             ))}
           </tbody>

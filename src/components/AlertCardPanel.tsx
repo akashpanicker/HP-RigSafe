@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
 
 interface AlertData {
   id: number;
@@ -70,7 +71,12 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
       </div>
       <div className="alert-card__row">
         <span className="alert-card__label">Event ID:</span>
-        <span className="alert-card__value">{eventId}</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="alert-card__value" tabIndex={0}>{eventId}</span>
+          </TooltipTrigger>
+          <TooltipContent>Unique identifier for this incident</TooltipContent>
+        </Tooltip>
       </div>
       <div className="alert-card__row">
         <span className="alert-card__label">Camera ID:</span>
@@ -82,7 +88,12 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
       </div>
       <div className="alert-card__row">
         <span className="alert-card__label">Zone Type:</span>
-        <span className="alert-card__value">{zoneType}</span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="alert-card__value" tabIndex={0}>{zoneType}</span>
+          </TooltipTrigger>
+          <TooltipContent>Area classification used for safety monitoring</TooltipContent>
+        </Tooltip>
       </div>
       <div className="alert-card__row">
         <span className="alert-card__label">Location:</span>
@@ -91,7 +102,12 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
       {confidence && (
         <div className="alert-card__row">
           <span className="alert-card__label">Confidence:</span>
-          <span className="alert-card__value">{confidence}</span>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="alert-card__value" tabIndex={0}>{confidence}</span>
+            </TooltipTrigger>
+            <TooltipContent>AI detection confidence score</TooltipContent>
+          </Tooltip>
         </div>
       )}
     </div>
@@ -111,16 +127,31 @@ export const AlertCardActions: React.FC<AlertCardActionsProps> = ({
 }) => {
   return (
     <div className={`alert-card__actions ${onExportClip ? 'alert-card__actions--triple' : ''}`}>
-      <button className="alert-card__btn alert-card__btn--secondary" onClick={onViewRecording}>
-        {onExportClip ? 'Play recording' : 'View Recording'}
-      </button>
-      <button className="alert-card__btn alert-card__btn--primary" onClick={onAcknowledge}>
-        Acknowledge
-      </button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="alert-card__btn alert-card__btn--secondary" onClick={onViewRecording}>
+            {onExportClip ? 'Play recording' : 'View Recording'}
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>Jump to this event in the video</TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <button className="alert-card__btn alert-card__btn--primary" onClick={onAcknowledge}>
+            Acknowledge
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>Mark alert as acknowledged</TooltipContent>
+      </Tooltip>
       {onExportClip && (
-        <button className="alert-card__btn alert-card__btn--secondary" onClick={onExportClip}>
-          Export clip
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button className="alert-card__btn alert-card__btn--secondary" onClick={onExportClip}>
+              Export clip
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Download video segment</TooltipContent>
+        </Tooltip>
       )}
     </div>
   );

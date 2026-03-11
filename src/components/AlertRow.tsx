@@ -1,3 +1,5 @@
+import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
+
 interface AlertRowProps {
   status: 'critical' | 'warning';
   issue: string;
@@ -8,6 +10,7 @@ interface AlertRowProps {
   rig: string;
   camera: string;
   dateTime: string;
+  onViewRecording?: () => void;
 }
 
 function AlertRow({
@@ -20,6 +23,7 @@ function AlertRow({
   rig,
   camera,
   dateTime,
+  onViewRecording,
 }: AlertRowProps) {
   const isCritical = status === 'critical';
 
@@ -51,27 +55,38 @@ function AlertRow({
       <td>{camera}</td>
       <td>{dateTime}</td>
       <td>
-        <button
-          className="alert-row__action-btn"
-          type="button"
-          aria-label={`View recording for event ${eventId}`}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-            <circle cx="12" cy="12" r="3" />
-          </svg>
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className="alert-row__action-btn"
+              type="button"
+              aria-label={`View recording for event ${eventId}`}
+              onClick={onViewRecording}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Jump to this event in the video</TooltipContent>
+        </Tooltip>
       </td>
       <td>
-        <button
-          className="alert-row__action-btn"
-          type="button"
-          aria-label={`Acknowledge event ${eventId}`}
-        >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              className="alert-row__action-btn"
+              type="button"
+              aria-label={`Acknowledge event ${eventId}`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>Mark alert as acknowledged</TooltipContent>
+        </Tooltip>
       </td>
     </tr>
   );
