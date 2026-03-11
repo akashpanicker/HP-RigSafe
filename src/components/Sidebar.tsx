@@ -2,11 +2,13 @@ import { useState } from 'react';
 
 interface SidebarProps {
   isOpen: boolean;
+  activeLayout: string;
+  onLayoutChange: (layout: string) => void;
 }
 
-function Sidebar({ isOpen }: SidebarProps) {
+function Sidebar({ isOpen, activeLayout, onLayoutChange }: SidebarProps) {
   const [isCameraExpanded, setIsCameraExpanded] = useState(true);
-  const [isLayoutsExpanded, setIsLayoutsExpanded] = useState(false);
+  const [isLayoutsExpanded, setIsLayoutsExpanded] = useState(true); // Default to true for easier access during development
   
   // Sub-section states
   const [isEastExpanded, setIsEastExpanded] = useState(true);
@@ -210,14 +212,27 @@ function Sidebar({ isOpen }: SidebarProps) {
 
           {isLayoutsExpanded && (
             <div className="sidebar__tree">
-              <div className="sidebar__tree-item">
-                <svg className="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <line x1="12" y1="3" x2="12" y2="21" />
-                </svg>
-                <span>Layout 1</span>
+              <div 
+                className={`sidebar__tree-item ${activeLayout === 'Layout 1' ? 'sidebar__tree-item--active' : ''}`}
+                onClick={() => onLayoutChange('Layout 1')}
+              >
+                <div className="sidebar__tree-item-content">
+                  <svg className="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                    <line x1="12" y1="3" x2="12" y2="21" />
+                  </svg>
+                  <span>Layout 1</span>
+                </div>
+                {activeLayout === 'Layout 1' && (
+                  <svg className="sidebar__check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
               </div>
-              <div className="sidebar__tree-item sidebar__tree-item--active">
+              <div 
+                className={`sidebar__tree-item ${activeLayout === 'Layout 2' ? 'sidebar__tree-item--active' : ''}`}
+                onClick={() => onLayoutChange('Layout 2')}
+              >
                 <div className="sidebar__tree-item-content">
                   <svg className="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -225,9 +240,11 @@ function Sidebar({ isOpen }: SidebarProps) {
                   </svg>
                   <span>Layout 2</span>
                 </div>
-                <svg className="sidebar__check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
+                {activeLayout === 'Layout 2' && (
+                  <svg className="sidebar__check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
               </div>
             </div>
           )}
