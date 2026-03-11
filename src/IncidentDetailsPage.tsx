@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import Header from './Header';
-import VideoPanel from './VideoPanel';
-import EventTimeline, { TimelineEvent } from './EventTimeline';
-import { AlertCard } from './AlertCardPanel';
-import { alertData } from '../constants/alerts';
-import { Tooltip, TooltipContent, TooltipTrigger } from './Tooltip';
+import Header from './components/Header';
+import VideoPanel from './components/VideoPanel';
+import EventTimeline, { TimelineEvent } from './components/EventTimeline';
+import { AlertCard } from './components/AlertCardPanel';
+import { alertData } from './constants/alerts';
+import { Tooltip, TooltipContent, TooltipTrigger } from './components/Tooltip';
 
 interface IncidentDetailsPageProps {
   isSidebarOpen: boolean;
@@ -173,4 +173,5 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
 };
 
 export default IncidentDetailsPage;
+
 

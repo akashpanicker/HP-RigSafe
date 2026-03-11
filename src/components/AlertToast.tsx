@@ -25,9 +25,9 @@ function AlertToast({ onViewDetails }: AlertToastProps) {
       <div className="alert-toast__header">
         <span className="alert-toast__icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M12 8v4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <circle cx="12" cy="16" r="1" fill="currentColor" />
+            <path d="M12 3 2.8 19a1 1 0 0 0 .87 1.5h16.66a1 1 0 0 0 .87-1.5L12 3z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            <path d="M12 9v5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="12" cy="17" r="1" fill="currentColor" />
           </svg>
         </span>
         <div className="alert-toast__content">

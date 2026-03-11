@@ -6,7 +6,7 @@ import VideoPanel from './components/VideoPanel';
 import AlertToast from './components/AlertToast';
 import AlertTable from './components/AlertTable';
 import AlertCardPanel from './components/AlertCardPanel';
-import IncidentDetailsPage from './components/IncidentDetailsPage';
+import IncidentDetailsPage from './IncidentDetailsPage';
 import { alertData } from './constants/alerts';
 
 type AppView = 'dashboard' | 'incident-details';
@@ -177,3 +177,4 @@ function App() {
 }
 
 export default App;
+
