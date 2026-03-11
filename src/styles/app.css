@@ -573,6 +573,10 @@ body,
   margin-bottom: var(--spacing-lg);
 }
 
+.video-section--one-panel {
+  grid-template-columns: 1fr;
+}
+
 .video-panel {
   background-color: var(--surface-3);
   border-radius: var(--radius-lg);

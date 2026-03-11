@@ -18,6 +18,8 @@ interface VideoPanelProps {
   boundingBox?: BoundingBox;
   startTime?: number;
   onOpenIncidentDetails?: () => void;
+  onClosePanel?: () => void;
+  canClosePanel?: boolean;
 }
 
 function VideoPanel({
@@ -29,6 +31,8 @@ function VideoPanel({
   boundingBox,
   startTime,
   onOpenIncidentDetails,
+  onClosePanel,
+  canClosePanel = true,
 }: VideoPanelProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(true);
@@ -92,17 +96,19 @@ function VideoPanel({
             </TooltipTrigger>
             <TooltipContent>Open incident details in a new tab</TooltipContent>
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button className="video-panel__action-btn" type="button" aria-label="Close panel">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Close video panel</TooltipContent>
-          </Tooltip>
+          {canClosePanel && onClosePanel && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="video-panel__action-btn" type="button" aria-label="Close panel" onClick={onClosePanel}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Close video panel</TooltipContent>
+            </Tooltip>
+          )}
         </div>
       </div>
 

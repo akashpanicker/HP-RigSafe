@@ -138,6 +138,7 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
               feedVideo="/assets/images/Rig video 1.mp4"
               isAlert={true}
               startTime={seekTime}
+              canClosePanel={false}
             />
           </div>
           <EventTimeline 
@@ -172,3 +173,4 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
 };
 
 export default IncidentDetailsPage;
+
