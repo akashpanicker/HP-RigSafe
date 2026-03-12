@@ -82,7 +82,7 @@ export const AlertCardBody: React.FC<AlertCardBodyProps> = ({
         <span className="alert-card__value">{cameraId}</span>
       </div>
       <div className="alert-card__row">
-        <span className="alert-card__label">Date and Time:</span>
+        <span className="alert-card__label">Date & Time:</span>
         <span className="alert-card__value">{dateTime}</span>
       </div>
       <div className="alert-card__row">

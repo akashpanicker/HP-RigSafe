@@ -11,6 +11,7 @@ interface DemoToast {
 }
 
 const DEMO_TOAST_INTERVAL_MS = 60_000;
+const MAX_DEMO_TOASTS = 4;
 const DEMO_ALERT_LOCATIONS = [
   'West > Site 09 > Rig 146 > Cam 03 – Pipe Deck',
   'East > Site 28 > Rig 160 > Cam 01 – Pipe Deck',
@@ -37,7 +38,10 @@ function AlertToast({ onViewDetails }: AlertToastProps) {
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
-      setToasts((currentToasts) => [...currentToasts, createToast()]);
+      setToasts((currentToasts) => {
+        const nextToasts = [...currentToasts, createToast()];
+        return nextToasts.slice(-MAX_DEMO_TOASTS);
+      });
     }, DEMO_TOAST_INTERVAL_MS);
 
     return () => window.clearInterval(intervalId);
@@ -76,7 +80,7 @@ function AlertToast({ onViewDetails }: AlertToastProps) {
               </svg>
             </span>
             <div className="alert-toast__content">
-              <h3 className="alert-toast__title">New Alert Notification</h3>
+              <h3 className="alert-toast__title">Critical Alert</h3>
               <p className="alert-toast__message">{toast.message}</p>
             </div>
             <button

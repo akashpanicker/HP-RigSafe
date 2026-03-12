@@ -73,7 +73,7 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
   const activeAlertData = alertData.find(alert => alert.activity === 'Active') || {
     id: 12345,
     status: 'critical' as const,
-    issue: 'Human detected – Restricted Zone',
+    issue: 'Human Detected',
     activity: 'Active',
     eventId: '#12345',
     rig: 'HP-123',
@@ -86,52 +86,52 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
 
   return (
     <div className="incident-details-page">
-      <Header 
-        isSidebarOpen={isSidebarOpen} 
-        onToggleSidebar={onToggleSidebar} 
-        pageTitle="Incident Details" 
+      <Header
+        isSidebarOpen={isSidebarOpen}
+        onToggleSidebar={onToggleSidebar}
+        pageTitle="Incident Details"
         onLogoClick={onBack}
       />
 
-      <div className="context-bar">
-        <div className="context-bar__left">
-          <select
-            className="time-range-selector"
-            value={rangeMinutes}
-            onChange={(event) => setRangeMinutes(Number(event.target.value))}
-            aria-label="Select timeline range"
-          >
-            {RANGE_OPTIONS.map((option) => (
-              <option key={option.minutes} value={option.minutes}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="context-bar__center">
-          <div className="context-bar__breadcrumb">
-            West &gt; Midland Site &gt; Rig 145 &gt; Cam 02 – Pipe Deck
+      <div className="incident-grid">
+        <div className="context-bar context-bar--incident">
+          <div className="context-bar__left">
+            <select
+              className="time-range-selector"
+              value={rangeMinutes}
+              onChange={(event) => setRangeMinutes(Number(event.target.value))}
+              aria-label="Select timeline range"
+            >
+              {RANGE_OPTIONS.map((option) => (
+                <option key={option.minutes} value={option.minutes}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="context-bar__center">
+            <div className="context-bar__breadcrumb">
+              West &gt; Midland Site &gt; Rig 145 &gt; Cam 02 – Pipe Deck
+            </div>
+          </div>
+          <div className="context-bar__right">
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button className="video-panel__action-btn" type="button" aria-label="Settings">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                  </svg>
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>Camera settings</TooltipContent>
+            </Tooltip>
           </div>
         </div>
-        <div className="context-bar__right">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button className="video-panel__action-btn" type="button" aria-label="Settings">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Camera settings</TooltipContent>
-          </Tooltip>
-        </div>
-      </div>
 
-      <div className="incident-grid">
         <main className="incident-main">
           <div className="incident-video-container">
-            <VideoPanel 
+            <VideoPanel
               cameraName="Cam 02 - Pipe Deck"
               breadcrumb="West > Midland Site > Rig 145 > Cam 02 - Pipe Deck"
               feedImage="/assets/images/camera-04.png"
@@ -141,25 +141,25 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
               canClosePanel={false}
             />
           </div>
-          <EventTimeline 
+          <EventTimeline
             events={visibleTimelineEvents}
             rangeMinutes={rangeMinutes}
             selectedEventId={selectedEventId}
             onEventClick={handleEventClick}
           />
         </main>
-        
+
         <aside className="incident-side">
           <section className="incident-side__section incident-side__section--fixed">
-            <h2 className="incident-panel-title">Selected alert event</h2>
-            <AlertCard 
-              alert={activeAlertData} 
+            <h1 className="incident-panel-title">Selected alert event</h1>
+            <AlertCard
+              alert={activeAlertData}
               isHighlighted={true}
             />
           </section>
 
           <section className="incident-side__section incident-side__section--scrollable">
-            <h2 className="incident-panel-title">Recent Alerts</h2>
+            <h1 className="incident-panel-title">Recent Alerts</h1>
             <div className="incident-side__list">
               {recentAlerts.map(alert => (
                 <AlertCard key={alert.id} alert={alert} />

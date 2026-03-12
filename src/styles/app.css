@@ -878,7 +878,7 @@ body,
 }
 
 .alert-toast__title {
-  font-size: var(--font-size-md);
+  font-size: 16px;
   font-weight: 700;
   color: var(--white);
   margin-bottom: 2px;
@@ -1793,7 +1793,7 @@ body,
   font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--white);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
 }
 
 .alert-card-panel__empty {
@@ -1838,7 +1838,7 @@ body,
 }
 
 .alert-card__title {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--white);
   line-height: 1.4;
@@ -1881,7 +1881,7 @@ body,
   justify-content: flex-start;
   align-items: center;
   gap: var(--spacing-sm);
-  font-size: var(--font-size-xs);
+  font-size: var(--font-size-md);
   text-align: left;
 }
 
@@ -2032,7 +2032,7 @@ body,
   justify-content: space-between;
   padding: 0 var(--spacing-xl);
   color: var(--text-4);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
   width: 100%;
   box-sizing: border-box;
@@ -2083,6 +2083,7 @@ body,
   border-radius: var(--radius-md);
   color: var(--text-1);
   font-size: var(--font-size-xs);
+  font-family: var(--font-family);
   cursor: pointer;
 }
 
@@ -2094,11 +2095,19 @@ body,
 .incident-grid {
   display: grid;
   grid-template-columns: 1fr 340px;
+  grid-template-rows: auto 1fr;
   flex: 1;
   overflow: hidden;
 }
 
+.context-bar--incident {
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
+}
+
 .incident-main {
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
   display: flex;
   flex-direction: column;
   padding: var(--spacing-lg);
@@ -2119,15 +2128,16 @@ body,
 }
 
 .incident-panel-title {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
   font-weight: 700;
   color: var(--white);
-  text-transform: uppercase;
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   letter-spacing: 0.5px;
 }
 
 .incident-side {
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
   background-color: var(--surface-2);
   border-left: 1px solid var(--surface-4);
   display: flex;
@@ -2176,6 +2186,18 @@ body,
 @media (max-width: 1024px) {
   .incident-grid {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
     overflow-y: auto;
+  }
+
+  .context-bar--incident,
+  .incident-main,
+  .incident-side {
+    grid-column: 1 / 2;
+    grid-row: auto;
+  }
+
+  .incident-side {
+    height: auto;
   }
 }

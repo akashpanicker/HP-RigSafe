@@ -17,7 +17,7 @@ export const alertData: AlertData[] = [
   {
     id: 1,
     status: 'critical',
-    issue: 'Human detected – Restricted Zone',
+    issue: 'Human Detected',
     activity: 'Active',
     eventId: 'EVT-9082',
     region: 'West',
@@ -31,7 +31,7 @@ export const alertData: AlertData[] = [
   {
     id: 2,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9081',
     region: 'West',
@@ -45,7 +45,7 @@ export const alertData: AlertData[] = [
   {
     id: 3,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9078',
     region: 'West',
@@ -59,7 +59,7 @@ export const alertData: AlertData[] = [
   {
     id: 4,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9075',
     region: 'West',
@@ -73,7 +73,7 @@ export const alertData: AlertData[] = [
   {
     id: 5,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9060',
     region: 'West',
@@ -101,7 +101,7 @@ export const alertData: AlertData[] = [
   {
     id: 7,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9058',
     region: 'West',
@@ -129,7 +129,7 @@ export const alertData: AlertData[] = [
   {
     id: 9,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9056',
     region: 'East',
@@ -143,7 +143,7 @@ export const alertData: AlertData[] = [
   {
     id: 10,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9055',
     region: 'East',
@@ -185,7 +185,7 @@ export const alertData: AlertData[] = [
   {
     id: 13,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9052',
     region: 'West',
@@ -213,7 +213,7 @@ export const alertData: AlertData[] = [
   {
     id: 15,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9050',
     region: 'West',
@@ -241,7 +241,7 @@ export const alertData: AlertData[] = [
   {
     id: 17,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9048',
     region: 'North',
@@ -269,7 +269,7 @@ export const alertData: AlertData[] = [
   {
     id: 19,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9046',
     region: 'North',
@@ -297,7 +297,7 @@ export const alertData: AlertData[] = [
   {
     id: 21,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9044',
     region: 'North',
@@ -325,7 +325,7 @@ export const alertData: AlertData[] = [
   {
     id: 23,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9042',
     region: 'South',
@@ -353,7 +353,7 @@ export const alertData: AlertData[] = [
   {
     id: 25,
     status: 'warning',
-    issue: 'Human detected – Yellow Zone',
+    issue: 'Human detected',
     activity: 'Recent',
     eventId: 'EVT-9040',
     region: 'South',
