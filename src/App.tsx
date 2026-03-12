@@ -147,7 +147,7 @@ function App() {
               <CameraThumbnailBar />
 
               <section
-                className={`video-section${layout2VideoPanels.length === 1 ? ' video-section--one-panel' : ''}`}
+                className={`video-section video-section--dashboard${layout2VideoPanels.length === 1 ? ' video-section--one-panel' : ''}`}
                 aria-label="Video monitoring panels"
               >
                 {layout2VideoPanels.map((panel) => (

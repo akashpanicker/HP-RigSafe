@@ -431,7 +431,7 @@ body,
    CAMERA THUMBNAIL BAR
    ============================================ */
 .thumbnail-section {
-  padding: 4px var(--spacing-lg);
+  padding: 2px var(--spacing-lg);
   background-color: var(--surface-1);
 }
 
@@ -439,7 +439,7 @@ body,
   display: flex;
   align-items: center;
   gap: var(--spacing-md);
-  margin-bottom: var(--spacing-sm);
+  margin: 8px 0;
 }
 
 .thumbnail-section__dropdown {
@@ -575,6 +575,18 @@ body,
 
 .video-section--one-panel {
   grid-template-columns: 1fr;
+}
+
+.video-section--dashboard {
+  flex: 0 0 clamp(260px, 40vh, 360px);
+}
+
+.video-section--dashboard .video-panel {
+  min-height: 0;
+}
+
+.video-section--dashboard .video-panel__content {
+  min-height: 0;
 }
 
 .video-panel {
@@ -771,11 +783,20 @@ body,
 /* ============================================
    ALERT TOAST COMPONENT
    ============================================ */
-.alert-toast {
+.alert-toast-stack {
   position: fixed;
   top: 60px;
   right: var(--spacing-xl);
   z-index: var(--z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  max-height: calc(100vh - 72px);
+  overflow-y: auto;
+}
+
+.alert-toast {
+  position: relative;
   width: 340px;
   background-color: var(--surface-3);
   border: 1px solid var(--negative);
@@ -813,15 +834,19 @@ body,
   0% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-2px);
   }
+
   50% {
     transform: translateX(2px);
   }
+
   75% {
     transform: translateX(-1px);
   }
+
   100% {
     transform: translateX(0);
   }
@@ -973,7 +998,7 @@ body,
 .alert-table-wrapper {
   border-radius: var(--radius-lg);
   overflow: auto;
-  border: 1px solid var(--surface-4);
+  border: 1px solid var(--text-4);
   background-color: var(--surface-2);
   flex: 1;
   min-height: 0;
@@ -1314,6 +1339,14 @@ body,
     min-height: 280px;
   }
 
+  .video-section--dashboard {
+    flex-basis: clamp(220px, 34vh, 300px);
+  }
+
+  .video-section--dashboard .video-panel__content {
+    min-height: 0;
+  }
+
   .header__center {
     flex: 0 1 240px;
   }
@@ -1367,13 +1400,24 @@ body,
     min-height: 200px;
   }
 
+  .video-section--dashboard {
+    flex-basis: clamp(170px, 30vh, 230px);
+  }
+
+  .video-section--dashboard .video-panel__content {
+    min-height: 0;
+  }
+
   .alerts-section {
     padding: var(--spacing-md);
   }
 
-  .alert-toast {
+  .alert-toast-stack {
     right: var(--spacing-md);
     left: var(--spacing-md);
+  }
+
+  .alert-toast {
     width: auto;
   }
 
