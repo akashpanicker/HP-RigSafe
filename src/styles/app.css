@@ -1497,15 +1497,15 @@ body,
 }
 
 .sidebar__chevron--expanded {
-  transform: rotate(0deg);
-}
-
-.sidebar__chevron--right {
   transform: rotate(-90deg);
 }
 
+.sidebar__chevron--right {
+  transform: rotate(0deg);
+}
+
 .sidebar__tree {
-  padding-left: var(--spacing-sm);
+  padding-left: 0;
   border-left: 1px solid var(--surface-4);
   margin-left: 9px;
   margin-top: var(--spacing-xs);
@@ -1538,6 +1538,18 @@ body,
   gap: 6px;
 }
 
+.sidebar__tree-item--region {
+  padding-left: 12px;
+}
+
+.sidebar__tree-item--site {
+  padding-left: 24px;
+}
+
+.sidebar__tree-item--rig {
+  padding-left: 36px;
+}
+
 .sidebar__tree-cameras {
   margin-left: var(--spacing-sm);
   margin-top: var(--spacing-xs);
@@ -1548,7 +1560,7 @@ body,
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  padding: 6px 12px;
+  padding: 6px 12px 6px 48px;
   border-radius: var(--radius-md);
   font-size: var(--font-size-sm);
   color: var(--text-2);

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 import VideoPanel from './components/VideoPanel';
 import EventTimeline, { TimelineEvent } from './components/EventTimeline';
 import { AlertCard } from './components/AlertCardPanel';
@@ -10,6 +11,8 @@ interface IncidentDetailsPageProps {
   isSidebarOpen: boolean;
   onToggleSidebar: () => void;
   onBack?: () => void;
+  activeLayout: string;
+  onLayoutChange: (layout: string) => void;
 }
 
 const RANGE_OPTIONS = [
@@ -35,7 +38,9 @@ const TIMELINE_EVENTS: TimelineEvent[] = [
 const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
   isSidebarOpen,
   onToggleSidebar,
-  onBack
+  onBack,
+  activeLayout,
+  onLayoutChange,
 }) => {
   const [selectedEventId, setSelectedEventId] = useState<string | undefined>('event-3');
   const [seekTime, setSeekTime] = useState<number | undefined>(undefined);
@@ -92,6 +97,14 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
         pageTitle="Incident Details"
         onLogoClick={onBack}
       />
+
+      <div className="app-container">
+        <Sidebar
+          isOpen={isSidebarOpen}
+          activeLayout={activeLayout}
+          onLayoutChange={onLayoutChange}
+          hideLayouts
+        />
 
       <div className="incident-grid">
         <div className="context-bar context-bar--incident">
@@ -167,6 +180,7 @@ const IncidentDetailsPage: React.FC<IncidentDetailsPageProps> = ({
             </div>
           </section>
         </aside>
+      </div>
       </div>
     </div>
   );

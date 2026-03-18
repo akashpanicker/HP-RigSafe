@@ -11,7 +11,7 @@ interface DemoToast {
 }
 
 const DEMO_TOAST_INTERVAL_MS = 60_000;
-const MAX_DEMO_TOASTS = 4;
+const MAX_DEMO_TOASTS = 2;
 const DEMO_ALERT_LOCATIONS = [
   'West / Site 09 / Rig 146 / Cam 03 – Pipe Deck',
   'East / Site 28 / Rig 160 / Cam 01 – Pipe Deck',

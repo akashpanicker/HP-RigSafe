@@ -100,6 +100,8 @@ function App() {
         isSidebarOpen={isSidebarOpen}
         onToggleSidebar={toggleSidebar}
         onBack={handleBackToDashboard}
+        activeLayout={activeLayout}
+        onLayoutChange={handleLayoutChange}
       />
     );
   }
